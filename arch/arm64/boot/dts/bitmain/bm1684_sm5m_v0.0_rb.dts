@@ -1,0 +1,20 @@
+#include "bm1684.dtsi"
+#include "bm1684_mm_12g.dtsi"
+#include "bm1684_sm5_rb.dtsi"
+
+/ {
+	info {
+		file-name = "bm1684_sm5m_v0.0_rb.dtb";
+	};
+};
+
+&i2c1 {
+	/delete-node/ tmp451@6b;
+
+	tmp451: tmp451@4c {
+		compatible = "ti,tmp451";
+		reg = <0x4c>;
+		#thermal-sensor-cells = <1>;
+	};
+};
+

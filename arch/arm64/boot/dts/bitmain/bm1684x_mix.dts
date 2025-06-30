@@ -1,0 +1,105 @@
+#include "bm1684x.dtsi"
+#include "bm1684x_mm_16g.dtsi"
+
+/ {
+	/delete-node/ serial@5011A000;
+	/delete-node/ serial@5011C000;
+	/delete-node/ i2c@5001A000;
+	/delete-node/ i2c@5001C000;
+	/delete-node/ i2c@5001E000;
+	/delete-node/ pwm@50029000;
+	/delete-node/ fan_speed@50029020;
+	/delete-node/ aliases;
+	/delete-node/ ethernet@50108000;
+	/delete-node/ ethernet@5010C000;
+	/delete-node/ bm-emmc@50100000;
+	/delete-node/ bm-sd@50101000;
+	/delete-node/ pcie@5fb80000;
+	/delete-node/ thermal-zones;
+	/delete-node/ bm1684_cooling;
+	/delete-node/ bce@58004000;
+	/delete-node/ pka@58008000;
+	/delete-node/ clp890@50018000;
+	/delete-node/ stmmac-axi-config;
+	/delete-node/ rx-queues-config;
+	/delete-node/ tx-queues-config;
+	/delete-node/ fan_speed-0@50029020;
+	/delete-node/ fan_speed-1@50029020;
+	/delete-node/ dw-apb-timer0@50022000;
+	/delete-node/ ddr;
+
+	/delete-node/ top_intc;
+
+	aliases {
+		serial0 = &uart0;
+	};
+
+	reserved-memory {
+		#address-cells = <0x2>;
+		#size-cells = <0x2>;
+		ranges;
+
+		bl31_mem {
+			reg = <0x03 0x00 0x00 0x40000>;
+			no-map;
+		};
+	};
+
+	bmcpu {
+		status = "okay";
+	};
+
+	bmtpu {
+		sophgon_arm9_fw_mode = <FW_MIX_MODE>;
+	};
+
+	veth {
+		status = "okay";
+	};
+
+	info {
+		file-name = "bm1684x_mix.dtb";
+	};
+};
+
+&ion_for_npu {
+	reg = <0x1 0x24100000 0x0 0xDBF00000>; // 3.44GB
+};
+
+&vpu_reserved {
+	reg = <0x2 0x00000000 0x0 0x08000000>; // 128M, for VPU firmware
+};
+
+&ion_for_vpu {
+	reg = <0x2 0x08000000 0x0 0xF8000000>; // 3.875G, for VPU
+};
+
+&ion_for_vpp {
+	reg = <0x4 0x40000000 0x0 0xC0000000>; // 3G, for VPP/JPU
+};
+
+&clock_init {
+	clock-rates = \
+		<2300000000>, <1000000000>, <800000000>,
+
+		<1000000000>, <1000000000>,
+		<2000000000>, <50000000>,
+		<200000000>, <100000000>,
+		<125000000>, <50000000>,
+		<25000000>, <125000000>,
+		<50000000>, <25000000>,
+		<500000000>, <25000000>,
+		<1000000000>, <500000000>,
+		<800000000>, <100000000>,
+		<250000000>, <250000000>,
+		<500000000>, <500000000>,
+		<50000000>, <50000000>,
+		<50000000>, <50000000>,
+		<50000000>, <50000000>,
+		<50000000>, <50000000>,
+		<100000>, <100000>, <100000>,
+
+		<1000000001>,
+		<800000000>, <800000001>,
+		<2300000001>, <575000000>;
+		};

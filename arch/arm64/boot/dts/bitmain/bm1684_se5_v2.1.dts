@@ -1,0 +1,50 @@
+#include "bm1684.dtsi"
+#include "bm1684_mm_12g.dtsi"
+#include "bm1684_se5.dtsi"
+
+/ {
+	info {
+		file-name = "bm1684_se5_v2.1.dtb";
+	};
+
+	i2c@5001C000 {
+		/delete-node/ bm16xxpic@6e;
+	};
+
+	fl2000-custom {
+		compatible = "fl2000-custom";
+		hpd-gpio = <&port0a 30 GPIO_ACTIVE_LOW>;
+	};
+
+	gpio-leds {
+		/delete-node/ gpio5;
+		/delete-node/ gpio6;
+
+		gpio7 {
+			label = "gpio7";
+			gpios = <&port0a 7 GPIO_ACTIVE_HIGH>;
+			default-state = "off";
+		};
+	};
+
+	gpio-keys {
+		/delete-node/ gpio7;
+		/delete-node/ gpio30;
+
+		gpio5 {
+			label = "GPIO Key Up";
+			linux,code = <KEY_UP>;
+			gpios = <&port0a 5 GPIO_ACTIVE_HIGH>;
+		};
+
+		gpio6 {
+			label = "GPIO Key DOWN";
+			linux,code = <KEY_DOWN>;
+			gpios = <&port0a 6 GPIO_ACTIVE_HIGH>;
+		};
+	};
+};
+
+&ethernet0 {
+	phy-wol = "support";
+};
